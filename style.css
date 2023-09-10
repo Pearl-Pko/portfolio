@@ -80,20 +80,24 @@ p, ul {
     gap: 20px;
 }
 
-#links li {
+#links li a {
     color: var(--text-header);
     list-style: none;
-    /* border-radius: 6px; */
     cursor: pointer;
     transition: border-color 0.3s ease-in-out;
     padding-bottom: 6px;
     border-bottom: 3px solid var(--lang-border);
 }
 
-#links li:hover,
-#links li:active {
+#links li a:visited {
+    border-bottom: var(--lang-border);
+}
+
+#links li a:hover,
+#links li a:active {
     border-color: var(--text-header);
 }
+
 
 #links a {
     display: flex;
