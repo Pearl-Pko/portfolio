@@ -118,3 +118,48 @@ p, ul {
 .email-svg {
     fill: white;
 }
+
+.scroll {
+    /* height: 0; */
+    /* color: transparent; */
+    /* height: auto; */
+    position: relative;
+    overflow: hidden;
+    animation: 
+        opac 1s ease-in-out,
+        move 0.5s ease-in-out,
+        show 3s ease-in;
+}
+
+@keyframes move {
+    from {
+        top: 15px;
+    }
+
+    to {
+        top: 0px;
+    }
+}
+
+@keyframes opac {
+    from {
+        opacity: 0.1;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes show {
+    /* from {max-height: 0;}
+    to {max-height: auto;} */
+    from {
+        max-height: 0;
+        /* color: transparent; */
+    }
+
+    to {
+        max-height: 1600px;
+    }
+}
