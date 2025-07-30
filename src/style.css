@@ -26,26 +26,29 @@ article {
 
 .container {
     display: inline-block;
+    /* box-sizing: content-box; */
 }
 
 .typewriter {
+    line-height: 1;
     width: 0;
-    /* padding-right: 0.15em; */
-    border-right: 0.15rem solid var(--text-header);
+    border-right: 0.12em solid var(--text-header);
     overflow: hidden;
     animation: 
-        blink 0.8s steps(2, end) infinite,
+        blink 0.8s step-end infinite,
         typing 4.8s steps(6, end) forwards;
+
 }
 
 @keyframes typing {
     from {width: 0;}
     to {width: 100%;}
+    
 }
 
 @keyframes blink {
-    from { border-color: transparent }
-    to { border-color: var(--text-header); }
+    from, to {border-color: transparent}
+    50% {border-color: var(--text-header);}
 }
 
 h1 {
