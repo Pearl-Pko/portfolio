@@ -7,17 +7,67 @@ import x from "./assets/logo-x.svg";
 import {motion} from "motion/react";
 import LinkUnderlineEffect from "./components/LinkUnderlineEffect";
 import Typewriter from "./components/Typewriter";
+import {cn} from "./utils/util";
 
 const text = ["Frontend Developer", "Backend Developer", "Software Developer"];
+
+const projects = [
+    {
+        title: "Pinterest Clone",
+        description: ` I built a full-featured Pinterest clone using Next.js with server-side rendering, a secure authentication system using JWT access and refresh tokens, and integrated AWS S3 for image
+                                        storage. I set up a zero-downtime CI/CD
+                                        pipeline using GitHub Actions and Docker
+                                        to automate deployments. This project
+                                        highlights my ability to deliver
+                                        scalable, production-ready applications
+                                        with strong backend architecture and
+                                        DevOps practices.`,
+        techStack: `NextJS, NestJS, AWS S3, Docker, Github Actions, PostgresSql, Prisma Tailwind CSS`,
+        link: "ttps://github.com/Pearl-Pko/PinterestClone",
+    },
+    {
+        title: "Droip.com Landing Page Clone",
+        description: `I developed a responsive landing page using Next.js and Tailwind CSS, focusing on performance and SEO optimization. The page features a dynamic hero section with smooth animations, a
+                                        contact form with email validation, and a
+                                        blog section that fetches posts from a
+                                        headless CMS. This project showcases my
+                                        skills in building modern, user-friendly
+                                        web applications with a focus on design and
+                                        functionality.`,
+        techStack: `NextJS, Tailwind CSS, React Motion`,
+        link: "https://github.com/Pearl-Pko/landing-page",
+    },
+    {
+        title: "Vite Plugin Console Pipe",
+        description: ` I built a custom Vite plugin that captures
+                                    console logs from the browser and forwards
+                                    them to the Vite development server. The
+                                    goal was to improve debugging, especially
+                                    for remote or headless browsers where direct
+                                    access to the browser console isn’t
+                                    available. The plugin works by injecting a
+                                    small client-side script into the app during
+                                    development. This script intercepts calls to
+                                    console.log, console.error, etc., and sends
+                                    them to the dev server over WebSocket, where
+                                    they’re printed in the terminal alongside
+                                    server logs. This makes it easy to monitor
+                                    client-side behavior directly from the
+                                    development environment.`,
+        techStack: "Vite, Websockets",
+        link: "https://github.com/Pearl-Pko/vite-plugin-console-pipe",
+    },
+];
+
 function App() {
-    const [currentIndex, setCurrentIndex] = useState(1);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [direction, setDirection] = useState(1);
 
     return (
-        <div className="bg-black h-screen font-display flex  justify-center">
-            <div className="max-w-[960px] flex gap-10 items-center ">
-                <div className="h-full flex-1 text-white flex flex-col justify-center">
+        <div className="bg-black font-display flex  justify-center">
+            <div className="max-w-[960px] flex gap-10 items-start">
+                <div className="h-screen sticky top-0 flex-1 text-white flex flex-col justify-center">
                     <p className="text-4xl mb-10 font-bold">Pearl Osamuede</p>
 
                     <p className="my-5 text-lg">
@@ -116,201 +166,144 @@ function App() {
                         </a>
                     </div>
                 </div>
-                <div className="flex-1 text-white flex flex-col gap-10 items-center justify-center ">
-                    <div className="flex gap-2 ">
-                        <button onClick={() => setCurrentIndex(0)}>
+                <div className="flex-1 text-white flex flex-col items-center justify-center ">
+                    <div className="flex gap-4 sticky top-0 bg-black w-full justify-center z-10 pt-20 pb-10">
+                        <button
+                            className={cn(
+                                "text-xl",
+                                currentIndex === 0 && "border-b-2 px-1"
+                            )}
+                            onClick={() => setCurrentIndex(0)}
+                        >
                             <p>Experience</p>
                         </button>
-                        <button onClick={() => setCurrentIndex(1)}>
+                        <button
+                            className={cn(
+                                "text-xl",
+                                currentIndex === 1 && "border-b-2 px-1"
+                            )}
+                            onClick={() => setCurrentIndex(1)}
+                        >
                             <p>Projects</p>
                         </button>
                     </div>
-                    {currentIndex === 0 && (
-                        <div className="flex  flex-col gap-4">
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <div className="size-2 bg-white rounded-full"></div>
-                                    <div className="flex-1 flex justify-between items-center">
-                                        <p className="text-xl">
-                                            Hospyta HealthCare
-                                        </p>
-
-                                        <p>July 2024 - April 2025</p>
-                                    </div>
-                                </div>
-                                <p className="italic">
-                                    React Native Developer (Remote)
-                                </p>
-                                <div className="">
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex gap-2">
-                                            <div className="w-1 bg-white/50 rounded-full"></div>
-                                            <p className="text-sm text-white/70">
-                                                Led the continuous development
-                                                and maintenance of the Hospyta
-                                                Patient App and Doctor App to
-                                                ensure smooth and enhanced user
-                                                experiences
+                    <div className="px-1 pb-10">
+                        {currentIndex === 0 && (
+                            <div className="flex  flex-col gap-4">
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="size-2 bg-white rounded-full"></div>
+                                        <div className="flex-1 flex justify-between items-center">
+                                            <p className="text-lg">
+                                                Hospyta HealthCare
                                             </p>
-                                        </div>
-                                        <div className="flex gap-2">
-                                            <div className="w-1 bg-white/50 rounded-full"></div>
 
-                                            <p className="text-sm text-white/70">
-                                                Played a key role in the
-                                                successful launch and continuous
-                                                development of multiple
-                                                high-performing mobile
-                                                applications across various
-                                                sectors of the healthcare
-                                                industry.
-                                            </p>
+                                            <p>July 2024 - April 2025</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="w-full h-0.5 rounded-full bg-white"></div>
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <div className="size-2 bg-white rounded-full"></div>
-                                    <div className="flex-1 flex justify-between items-center">
-                                        <p className="text-xl">
-                                            Princeps Credit System Limited
-                                        </p>
+                                    <p className="italic">
+                                        React Native Developer (Remote)
+                                    </p>
+                                    <div className="">
+                                        <div className="flex flex-col gap-2">
+                                            <div className="flex gap-2">
+                                                <div className="w-1 bg-white/50 rounded-full"></div>
+                                                <p className="text-sm text-white/70">
+                                                    Led the continuous
+                                                    development and maintenance
+                                                    of the Hospyta Patient App
+                                                    and Doctor App to ensure
+                                                    smooth and enhanced user
+                                                    experiences
+                                                </p>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <div className="w-1 bg-white/50 rounded-full"></div>
 
-                                        <p>July 2025</p>
-                                    </div>
-                                </div>
-                                <p className="italic">Backend Intern</p>
-                                <div className="">
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex gap-2">
-                                            <div className="w-1 bg-white/50 rounded-full"></div>
-                                            <p className="text-sm text-white/70">
-                                                Designed and implemented a
-                                                reusable authentication system
-                                                using NestJS, enabling secure,
-                                                modular, and scalable user
-                                                management across multiple
-                                                microservices and applications.
-                                            </p>
+                                                <p className="text-sm text-white/70">
+                                                    Played a key role in the
+                                                    successful launch and
+                                                    continuous development of
+                                                    multiple high-performing
+                                                    mobile applications across
+                                                    various sectors of the
+                                                    healthcare industry.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    )}
-                    {currentIndex === 1 && (
-                        <div className="flex flex-col self-start gap-4">
-                            <div className="flex flex-col">
-                                <p className="text-xl">Pinterest Clone</p>
-                                <p className="text-white mt-2 mb-1">
-                                    Tech Stack: NextJS, NestJS, AWS S3, Docker,
-                                    Github Actions, PostgresSql, Prisma Tailwind
-                                    CSS
-                                </p>
-                                <p className="text-white/70">
-                                    I built a full-featured Pinterest clone
-                                    using Next.js with server-side rendering, a
-                                    secure authentication system using JWT
-                                    access and refresh tokens, and integrated
-                                    AWS S3 for image storage. I set up a
-                                    zero-downtime CI/CD pipeline using GitHub
-                                    Actions and Docker to automate deployments.
-                                    This project highlights my ability to
-                                    deliver scalable, production-ready
-                                    applications with strong backend
-                                    architecture and DevOps practices.
-                                </p>
-                                <a
-                                    href="https://github.com/Pearl-Pko/PinterestClone"
-                                    target="_blank"
-                                    className="self-end"
-                                >
-                                    <LinkUnderlineEffect>
-                                        <p className="px-2">
-                                            View Project {"</>"}
-                                        </p>
-                                    </LinkUnderlineEffect>
-                                </a>
-                            </div>
-                            <div className="w-full h-0.5 rounded-full bg-white"></div>
+                                <div className="w-full h-[1px] rounded-full bg-white/50"></div>
 
-                            <div className="flex flex-col">
-                                <p className="text-xl">
-                                    Droip.com Landing Page Clone
-                                </p>
-                                <p className="text-white">
-                                    Tech Stack: NextJS, Tailwind CSS, React
-                                    Motion
-                                </p>
-                                <p className="text-white/70">
-                                    I recreated the Droip.com landing page,
-                                    focusing on high-fidelity design and smooth,
-                                    modern animations using Framer Motion. This
-                                    project was an exploration of current
-                                    frontend animation trends, including
-                                    scroll-driven effects, parallax transitions,
-                                    staggered motion sequences, and
-                                    micro-interactions to enhance user
-                                    engagement. I carefully studied Droip’s
-                                    design language to replicate its sleek,
-                                    modern aesthetic, while also adding my own
-                                    touches to improve responsiveness and
-                                    performance. The animations were implemented
-                                    with performance in mind, ensuring a fluid
-                                    experience across devices.
-                                </p>
-                                <a
-                                    href="https://github.com/Pearl-Pko/landing-page"
-                                    target="_blank"
-                                    className="self-end"
-                                >
-                                    <LinkUnderlineEffect>
-                                        <p className="px-2">
-                                            View Project {"</>"}
-                                        </p>
-                                    </LinkUnderlineEffect>
-                                </a>
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="size-2 bg-white rounded-full"></div>
+                                        <div className="flex-1 flex justify-between items-center">
+                                            <p className="text-lg">
+                                                Princeps Credit System Limited
+                                            </p>
+
+                                            <p>July 2025</p>
+                                        </div>
+                                    </div>
+                                    <p className="italic">Backend Intern</p>
+                                    <div className="">
+                                        <div className="flex flex-col gap-2">
+                                            <div className="flex gap-2">
+                                                <div className="w-1 bg-white/50 rounded-full"></div>
+                                                <p className="text-sm text-white/70">
+                                                    Designed and implemented a
+                                                    reusable authentication
+                                                    system using NestJS,
+                                                    enabling secure, modular,
+                                                    and scalable user management
+                                                    across multiple
+                                                    microservices and
+                                                    applications.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex flex-col">
-                                <p className="text-xl">
-                                    Vite Plugin Console Pipe
-                                </p>
-                                <p className="text-white">
-                                    Tech Stack: Vite, Websockets
-                                </p>
-                                <p className="text-white/70">
-                                    I built a custom Vite plugin that captures
-                                    console logs from the browser and forwards
-                                    them to the Vite development server. The
-                                    goal was to improve debugging, especially
-                                    for remote or headless browsers where direct
-                                    access to the browser console isn’t
-                                    available. The plugin works by injecting a
-                                    small client-side script into the app during
-                                    development. This script intercepts calls to
-                                    console.log, console.error, etc., and sends
-                                    them to the dev server over WebSocket, where
-                                    they’re printed in the terminal alongside
-                                    server logs. This makes it easy to monitor
-                                    client-side behavior directly from the
-                                    development environment.
-                                </p>
-                                <a
-                                    href="https://github.com/Pearl-Pko/landing-page"
-                                    target="_blank"
-                                    className="self-end"
-                                >
-                                    <LinkUnderlineEffect>
-                                        <p className="px-2">
-                                            View Project {"</>"}
-                                        </p>
-                                    </LinkUnderlineEffect>
-                                </a>
+                        )}
+                        {currentIndex === 1 && (
+                            <div className="flex flex-col self-start gap-4">
+                                {projects.map((project, index) => {
+                                    return (
+                                        <div className="flex flex-col gap-4">
+                                            <div className="flex flex-col">
+                                                <p className="text-xl">
+                                                    {project.title}
+                                                </p>
+                                                <p className="text-white mt-2 mb-1">
+                                                    Tech Stack:{" "}
+                                                    {project.techStack}
+                                                </p>
+                                                <p className="text-white/70">
+                                                    {project.description}
+                                                </p>
+                                                <a
+                                                    href={project.link}
+                                                    target="_blank"
+                                                    className="self-end"
+                                                >
+                                                    <LinkUnderlineEffect>
+                                                        <p className="px-2">
+                                                            View Project {"</>"}
+                                                        </p>
+                                                    </LinkUnderlineEffect>
+                                                </a>
+                                            </div>
+                                            {index !== projects.length - 1 && (
+                                                <div className="w-full h-[1px] rounded-full bg-white/50"></div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
