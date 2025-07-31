@@ -8,8 +8,12 @@ import {motion} from "motion/react";
 import LinkUnderlineEffect from "./components/LinkUnderlineEffect";
 import Typewriter from "./components/Typewriter";
 
+const text = ["Frontend Developer", "Backend Developer", "Software Developer"];
 function App() {
     const [currentIndex, setCurrentIndex] = useState(1);
+    const [currentTextIndex, setCurrentTextIndex] = useState(0);
+    const [direction, setDirection] = useState(1);
+
     return (
         <div className="bg-black h-screen font-display flex  justify-center">
             <div className="max-w-[960px] flex gap-10 items-center ">
@@ -18,7 +22,30 @@ function App() {
 
                     <p className="my-5 text-lg">
                         I am a{" "}
-                        <Typewriter text="Fullstack Developer" delay={0.06} />
+                        <Typewriter
+                            direction={direction}
+                            text={text[currentTextIndex]}
+                            repeat={
+                                currentTextIndex === text.length - 1
+                                    ? Infinity
+                                    : 1
+                            }
+                            delay={0.04}
+                            startDelay={
+                                currentIndex > 0 && direction === 1 ? 0.1 : 0.04
+                            }
+                            onAnimationComplete={() => {
+                                if (currentTextIndex === text.length - 1)
+                                    return;
+
+                                if (direction === 1) {
+                                    setDirection(-1);
+                                } else {
+                                    setCurrentTextIndex((c) => c + 1);
+                                    setDirection(1);
+                                }
+                            }}
+                        />
                     </p>
                     <p className="text-white/70">
                         I'm passionate about creating meaningful digital
