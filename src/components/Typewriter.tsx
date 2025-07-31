@@ -4,22 +4,25 @@ const Typewriter = ({
     text,
     delay = 0.05,
     blinkRate = 0.7,
+    direction = 1,
 }: {
     text: string;
-    delay: number;
-    blinkRate: number;
+    delay?: number;
+    blinkRate?: number;
+    direction?: number;
 }) => {
     const letters = text.split("");
 
     const container = {
-        hidden: {opacity: 0},
-        visible: (i = 1) => ({
-            opacity: 1,
+        // hidden: {opacity: 0},
+        visible: {
+            // opacity: 1,
             transition: {
                 staggerChildren: delay,
                 delayChildren: delay,
+                staggerDirection: direction,
             },
-        }),
+        },
     };
 
     return (
@@ -32,13 +35,13 @@ const Typewriter = ({
             {letters.map((char, index) => (
                 <motion.span
                     variants={{
-                        hidden: {opacity: 0},
+                        hidden: {opacity: direction === 1 ? 0 : 1},
                         visible: {
-                            opacity: 1,
+                            opacity: direction === 1 ? 1 : 0,
                             transition: {
                                 ease: "linear",
                                 duration: 0,
-                                delayChildren: delay,
+                                delayChildren: direction * delay,
                             },
                         },
                     }}
@@ -48,8 +51,9 @@ const Typewriter = ({
                     {char === " " ? "\u00A0" : char}
                     <motion.span
                         variants={{
+                            hidden: () => ({opacity: direction === 1 ? 1 : 0}),
                             visible: () =>
-                                index === letters.length - 1
+                                direction === 1 && index === letters.length - 1
                                     ? {
                                           opacity: [1, 0, 1],
                                           transition: {
@@ -59,16 +63,19 @@ const Typewriter = ({
                                           },
                                       }
                                     : {
-                                          opacity: 0,
+                                          opacity: direction === 1 ? 0 : 1,
                                           transition: {
                                               duration: 0,
                                           },
                                       },
+
+                            // visible: {opacity: 1},
                         }}
+                        transition={{duration: 0}}
                         // transition={{delay: delay}}
                         className="absolute inline-block pl-0.5"
                     >
-                        █{/* | */}
+                        █
                     </motion.span>
                 </motion.span>
             ))}

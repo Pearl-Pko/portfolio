@@ -16,7 +16,10 @@ function App() {
                 <div className="h-full flex-1 text-white flex flex-col justify-center">
                     <p className="text-4xl mb-10 font-bold">Pearl Osamuede</p>
 
-                    <p className="my-5 text-lg">I am a <Typewriter text="Fullstack Developer" delay={0.06}/></p>
+                    <p className="my-5 text-lg">
+                        I am a{" "}
+                        <Typewriter text="Fullstack Developer" delay={0.06} />
+                    </p>
                     <p className="text-white/70">
                         I'm passionate about creating meaningful digital
                         experiences through technology that not only solve
