@@ -8,7 +8,7 @@ import x from "./assets/logo-x.svg";
 function App() {
     const [currentIndex, setCurrentIndex] = useState(1);
     return (
-        <div className="bg-black h-screen flex  justify-center">
+        <div className="bg-black h-screen font-display flex  justify-center">
             <div className="max-w-[960px] flex gap-10 items-center ">
                 <div className="h-full flex-1 text-white flex flex-col justify-center">
                     <p className="text-4xl mb-10">Pearl Osamuede</p>
@@ -21,7 +21,7 @@ function App() {
                         organizations to thrive in an increasingly connected
                         world.
                     </p>
-                    <div className="flex gap-2 my-4 w-full">
+                    <div className="flex gap-2 my-4 w-full flex-wrap">
                         <p className="bg-[#222] px-2 py-0.5">Docker</p>
                         <p className="bg-[#222] px-2 py-0.5">NextJS</p>
                         <p className="bg-[#222] px-2 py-0.5">NestJS</p>
