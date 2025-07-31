@@ -1,65 +1,254 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import "./style.css"
+import {useState} from "react";
+import "./App.css";
+import github from "./assets/logo-github.svg";
+import linkedin from "./assets/logo-linkedin.svg";
+import mail from "./assets/mail-outline.svg";
+import x from "./assets/logo-x.svg";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [currentIndex, setCurrentIndex] = useState(1);
+    return (
+        <div className="bg-black h-screen flex  justify-center">
+            <div className="max-w-[960px] flex gap-10 items-center ">
+                <div className="h-full flex-1 text-white flex flex-col justify-center">
+                    <p className="text-4xl mb-10">Pearl Osamuede</p>
 
-  return (
-     <article>
-        <h1>Pearl Osamuede</h1>
-        
-        <div className="container">
-            <p className="typewriter">Hello.</p>
+                    <p className="my-5 text-lg">I am a Fullstack Developer</p>
+                    <p className="text-white/70">
+                        I'm passionate about creating meaningful digital
+                        experiences through technology that not only solve
+                        real-world problems but also empower individuals and
+                        organizations to thrive in an increasingly connected
+                        world.
+                    </p>
+                    <div className="flex gap-2 my-4 w-full">
+                        <p className="bg-[#222] px-2 py-0.5">Docker</p>
+                        <p className="bg-[#222] px-2 py-0.5">NextJS</p>
+                        <p className="bg-[#222] px-2 py-0.5">NestJS</p>
+                        <p className="bg-[#222] px-2 py-0.5">Python</p>
+                        <p className="bg-[#222] px-2 py-0.5">C++</p>
+                        <p className="bg-[#222] px-2 py-0.5">React Native</p>
+                    </div>
+                    <div className="flex gap-2">
+                        <a href="https://github.com/Pearl-Pko" target="_blank">
+                            <img
+                                width={22}
+                                height={22}
+                                src={github}
+                                className=" "
+                            />
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/pearl-osamuede-50a62229a"
+                            target="_blank"
+                        >
+                            <img
+                                width={22}
+                                height={22}
+                                src={linkedin}
+                                className=" "
+                            />
+                        </a>
+                        <a href="mailto:pearlosa32@gmail.com">
+                            <img
+                                width={22}
+                                height={22}
+                                src={mail}
+                                className=" "
+                            />
+                        </a>
+                        <a href="https://x.com/POsamuede87691" target="_blank">
+                            <img width={22} height={22} src={x} className=" " />
+                        </a>
+                    </div>
+                </div>
+                <div className="flex-1 text-white flex flex-col gap-10 items-center justify-center ">
+                    <div className="flex gap-2 ">
+                        <button onClick={() => setCurrentIndex(0)}>
+                            <p>Experience</p>
+                        </button>
+                        <button onClick={() => setCurrentIndex(1)}>
+                            <p>Projects</p>
+                        </button>
+                    </div>
+                    {currentIndex === 0 && (
+                        <div className="flex  flex-col gap-4">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="size-2 bg-white rounded-full"></div>
+                                    <div className="flex-1 flex justify-between items-center">
+                                        <p className="text-xl">
+                                            Hospyta HealthCare
+                                        </p>
+
+                                        <p>July 2024 - April 2025</p>
+                                    </div>
+                                </div>
+                                <p className="italic">
+                                    React Native Developer (Remote)
+                                </p>
+                                <div className="">
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex gap-2">
+                                            <div className="w-1 bg-white/50 rounded-full"></div>
+                                            <p className="text-sm text-white/70">
+                                                Led the continuous development
+                                                and maintenance of the Hospyta
+                                                Patient App and Doctor App to
+                                                ensure smooth and enhanced user
+                                                experiences
+                                            </p>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <div className="w-1 bg-white/50 rounded-full"></div>
+
+                                            <p className="text-sm text-white/70">
+                                                Played a key role in the
+                                                successful launch and continuous
+                                                development of multiple
+                                                high-performing mobile
+                                                applications across various
+                                                sectors of the healthcare
+                                                industry.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="w-full h-0.5 rounded-full bg-white"></div>
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="size-2 bg-white rounded-full"></div>
+                                    <div className="flex-1 flex justify-between items-center">
+                                        <p className="text-xl">
+                                            Princeps Credit System Limited
+                                        </p>
+
+                                        <p>July 2025</p>
+                                    </div>
+                                </div>
+                                <p className="italic">Backend Intern</p>
+                                <div className="">
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex gap-2">
+                                            <div className="w-1 bg-white/50 rounded-full"></div>
+                                            <p className="text-sm text-white/70">
+                                                Designed and implemented a
+                                                reusable authentication system
+                                                using NestJS, enabling secure,
+                                                modular, and scalable user
+                                                management across multiple
+                                                microservices and applications.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {currentIndex === 1 && (
+                        <div className="flex flex-col self-start gap-4">
+                            <div className="flex flex-col">
+                                <p className="text-xl">Pinterest Clone</p>
+                                <p className="text-white mt-2 mb-1">
+                                    Tech Stack: NextJS, NestJS, AWS S3, Docker,
+                                    Github Actions, PostgresSql, Prisma Tailwind
+                                    CSS
+                                </p>
+                                <p className="text-white/70">
+                                    I built a full-featured Pinterest clone
+                                    using Next.js with server-side rendering, a
+                                    secure authentication system using JWT
+                                    access and refresh tokens, and integrated
+                                    AWS S3 for image storage. I set up a
+                                    zero-downtime CI/CD pipeline using GitHub
+                                    Actions and Docker to automate deployments.
+                                    This project highlights my ability to
+                                    deliver scalable, production-ready
+                                    applications with strong backend
+                                    architecture and DevOps practices.
+                                </p>
+                                <a
+                                    href="https://github.com/Pearl-Pko/PinterestClone"
+                                    target="_blank"
+                                    className="self-end"
+                                >
+                                    View Project {"</>"}
+                                </a>
+                            </div>
+                            <div className="w-full h-0.5 rounded-full bg-white"></div>
+
+                            <div className="flex flex-col">
+                                <p className="text-xl">
+                                    Droip.com Landing Pgae Clone Clone
+                                </p>
+                                <p className="text-white">
+                                    Tech Stack: NextJS, Tailwind CSS, React
+                                    Motion
+                                </p>
+                                <p className="text-white/70">
+                                    I recreated the Droip.com landing page,
+                                    focusing on high-fidelity design and smooth,
+                                    modern animations using Framer Motion. This
+                                    project was an exploration of current
+                                    frontend animation trends, including
+                                    scroll-driven effects, parallax transitions,
+                                    staggered motion sequences, and
+                                    micro-interactions to enhance user
+                                    engagement. I carefully studied Droip’s
+                                    design language to replicate its sleek,
+                                    modern aesthetic, while also adding my own
+                                    touches to improve responsiveness and
+                                    performance. The animations were implemented
+                                    with performance in mind, ensuring a fluid
+                                    experience across devices.
+                                </p>
+                                <a
+                                    href="https://github.com/Pearl-Pko/landing-page"
+                                    target="_blank"
+                                    className="self-end"
+                                >
+                                    View Project {"</>"}
+                                </a>
+                            </div>
+                            <div className="flex flex-col">
+                                <p className="text-xl">
+                                    Vite Plugin Console Pipe
+                                </p>
+                                <p className="text-white">
+                                    Tech Stack: Vite, Websockets
+                                </p>
+                                <p className="text-white/70">
+                                    I built a custom Vite plugin that captures
+                                    console logs from the browser and forwards
+                                    them to the Vite development server. The
+                                    goal was to improve debugging, especially
+                                    for remote or headless browsers where direct
+                                    access to the browser console isn’t
+                                    available. The plugin works by injecting a
+                                    small client-side script into the app during
+                                    development. This script intercepts calls to
+                                    console.log, console.error, etc., and sends
+                                    them to the dev server over WebSocket, where
+                                    they’re printed in the terminal alongside
+                                    server logs. This makes it easy to monitor
+                                    client-side behavior directly from the
+                                    development environment.
+                                </p>
+                                <a
+                                    href="https://github.com/Pearl-Pko/landing-page"
+                                    target="_blank"
+                                    className="self-end"
+                                >
+                                    View Project {"</>"}
+                                </a>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
-
-        <div className="scroll">
-
-            <p>My name is Pearl Osamuede. I am a software developer based in Nigeria.</p>
-    
-            <p>I am passionate about all things software and believe my greatest trait
-            is my zeal to learn new things.
-            </p>
-    
-            <p>My work is a fusion of creativity and functionality, where i transform lines of code into intuitive software solutions.
-                From the intricate logic of C# to the versatility of JavaScipt, I thrive on the challenges of building efficient, user-friendly applications.
-            </p>
-    
-            <p>Whether it's cratfing web applications that captivate users or diving into the world of algorithmic problem-solving,
-                I relish every opportunity to bring ideas to life through code.
-            </p>
-    
-            <p>Let's connect and explore the endless possibliltes of software development. Together, 
-                we can turn your vision into a digital reality and create technology that makes a difference.
-            </p>
-    
-            <ul id="lang">
-                <li>MERN</li>
-                <li>C#</li>
-                <li>C++</li>
-                <li>Python</li>
-            </ul>
-    
-            <p>Contact me</p>
-            <ul id="links">
-                <li>
-                    <a href="https://github.com/Pearl-Pko/" target="_blank" rel="noopener">
-                        <img src="github-mark-white.png" className="github-img"/>
-                        <p>Github</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="mailto:pearlosa32@gmail.com" target="_blank" rel="noopener">
-                        <svg className="email-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>
-                        <p>Email</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </article>
-  )
+    );
 }
 
-export default App
+export default App;
