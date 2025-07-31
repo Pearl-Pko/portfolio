@@ -4,6 +4,8 @@ import github from "./assets/logo-github.svg";
 import linkedin from "./assets/logo-linkedin.svg";
 import mail from "./assets/mail-outline.svg";
 import x from "./assets/logo-x.svg";
+import {motion} from "motion/react";
+import LinkUnderlineEffect from "./components/LinkUnderlineEffect";
 
 function App() {
     const [currentIndex, setCurrentIndex] = useState(1);
@@ -11,7 +13,7 @@ function App() {
         <div className="bg-black h-screen font-display flex  justify-center">
             <div className="max-w-[960px] flex gap-10 items-center ">
                 <div className="h-full flex-1 text-white flex flex-col justify-center">
-                    <p className="text-4xl mb-10">Pearl Osamuede</p>
+                    <p className="text-4xl mb-10 font-bold">Pearl Osamuede</p>
 
                     <p className="my-5 text-lg">I am a Fullstack Developer</p>
                     <p className="text-white/70">
@@ -29,36 +31,57 @@ function App() {
                         <p className="bg-[#222] px-2 py-0.5">C++</p>
                         <p className="bg-[#222] px-2 py-0.5">React Native</p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2">
                         <a href="https://github.com/Pearl-Pko" target="_blank">
-                            <img
-                                width={22}
-                                height={22}
-                                src={github}
-                                className=" "
-                            />
+                            <LinkUnderlineEffect>
+                                <div className="p-1">
+                                    <img
+                                        width={22}
+                                        height={22}
+                                        src={github}
+                                        className=""
+                                    />
+                                </div>
+                            </LinkUnderlineEffect>
                         </a>
                         <a
                             href="https://www.linkedin.com/in/pearl-osamuede-50a62229a"
                             target="_blank"
                         >
-                            <img
-                                width={22}
-                                height={22}
-                                src={linkedin}
-                                className=" "
-                            />
+                            <LinkUnderlineEffect>
+                                <div className="p-1">
+                                    <img
+                                        width={22}
+                                        height={22}
+                                        src={linkedin}
+                                        className=" "
+                                    />
+                                </div>
+                            </LinkUnderlineEffect>
                         </a>
                         <a href="mailto:pearlosa32@gmail.com">
-                            <img
-                                width={22}
-                                height={22}
-                                src={mail}
-                                className=" "
-                            />
+                            <LinkUnderlineEffect>
+                                <div className="p-1">
+                                    <img
+                                        width={22}
+                                        height={22}
+                                        src={mail}
+                                        className=" "
+                                    />
+                                </div>
+                            </LinkUnderlineEffect>
                         </a>
                         <a href="https://x.com/POsamuede87691" target="_blank">
-                            <img width={22} height={22} src={x} className=" " />
+                            <LinkUnderlineEffect>
+                                <div className="p-1">
+                                    <img
+                                        width={22}
+                                        height={22}
+                                        src={x}
+                                        className=" "
+                                    />
+                                </div>
+                            </LinkUnderlineEffect>
                         </a>
                     </div>
                 </div>
@@ -173,14 +196,18 @@ function App() {
                                     target="_blank"
                                     className="self-end"
                                 >
-                                    View Project {"</>"}
+                                    <LinkUnderlineEffect>
+                                        <p className="px-2">
+                                            View Project {"</>"}
+                                        </p>
+                                    </LinkUnderlineEffect>
                                 </a>
                             </div>
                             <div className="w-full h-0.5 rounded-full bg-white"></div>
 
                             <div className="flex flex-col">
                                 <p className="text-xl">
-                                    Droip.com Landing Pgae Clone Clone
+                                    Droip.com Landing Page Clone
                                 </p>
                                 <p className="text-white">
                                     Tech Stack: NextJS, Tailwind CSS, React
@@ -208,7 +235,11 @@ function App() {
                                     target="_blank"
                                     className="self-end"
                                 >
-                                    View Project {"</>"}
+                                    <LinkUnderlineEffect>
+                                        <p className="px-2">
+                                            View Project {"</>"}
+                                        </p>
+                                    </LinkUnderlineEffect>
                                 </a>
                             </div>
                             <div className="flex flex-col">
@@ -240,7 +271,11 @@ function App() {
                                     target="_blank"
                                     className="self-end"
                                 >
-                                    View Project {"</>"}
+                                    <LinkUnderlineEffect>
+                                        <p className="px-2">
+                                            View Project {"</>"}
+                                        </p>
+                                    </LinkUnderlineEffect>
                                 </a>
                             </div>
                         </div>
