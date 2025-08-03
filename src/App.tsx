@@ -1,10 +1,16 @@
-import {useState} from "react";
+import {useLayoutEffect, useRef, useState} from "react";
 import "./App.css";
 import github from "./assets/logo-github.svg";
 import linkedin from "./assets/logo-linkedin.svg";
 import mail from "./assets/mail-outline.svg";
 import x from "./assets/logo-x.svg";
-import {motion} from "motion/react";
+import {
+    motion,
+    useMotionValue,
+    useMotionValueEvent,
+    useScroll,
+    useTransform,
+} from "motion/react";
 import LinkUnderlineEffect from "./components/LinkUnderlineEffect";
 import Typewriter from "./components/Typewriter";
 import {cn} from "./utils/util";
@@ -23,7 +29,7 @@ const projects = [
                                         with strong backend architecture and
                                         DevOps practices.`,
         techStack: `NextJS, NestJS, AWS S3, Docker, Github Actions, PostgresSql, Prisma Tailwind CSS`,
-        link: "ttps://github.com/Pearl-Pko/PinterestClone",
+        link: "https://github.com/Pearl-Pko/PinterestClone",
     },
     {
         title: "Droip.com Landing Page Clone",
@@ -60,13 +66,56 @@ const projects = [
 ];
 
 function App() {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(1);
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [direction, setDirection] = useState(1);
 
+    const lineThickness = 2;
+    const lineGap = 25;
+
+    const ref = useRef<HTMLDivElement>(null);
+    const stickyRef = useRef<HTMLDivElement>(null);
+
+    const {scrollYProgress, scrollY} = useScroll({
+        target: ref,
+        offset: ["start end", "end start"],
+    });
+
+    // const clipPath = useTransform(
+    //     scrollYProgress,
+    //     (value) => `inset(${value * 100}% 0px 0px 0px)`
+    // );
+
+    const clipPath = useMotionValue("");
+
+    useLayoutEffect(() => {
+        if (!stickyRef.current || !ref.current) {
+            return;
+        }
+
+        stickyRef.current.getBoundingClientRect().bottom -
+            ref.current.getBoundingClientRect().top;
+    }, [stickyRef, ref]);
+
+    useMotionValueEvent(scrollYProgress, "change", (val) => {
+        if (!stickyRef.current || !ref.current) {
+            return;
+        }
+        const overlapPercent = Math.min(
+            Math.abs(
+                (stickyRef.current.getBoundingClientRect().bottom -
+                    ref.current.getBoundingClientRect().top) /
+                    ref.current.getBoundingClientRect().height
+            ),
+            1
+        );
+        clipPath.set(`inset(${overlapPercent * 100}% 0px 0px 0px)`);
+        console.log("scroll progress", val, scrollY);
+    });
+
     return (
-        <div className="bg-black font-display flex  justify-center">
-            <div className="max-w-[960px] flex gap-10 items-start">
+        <div className="bg-black relative font-display flex  justify-center">
+            <div className="max-w-[960px] relative z-40 flex gap-10 items-start">
                 <div className="h-screen sticky top-0 flex-1 text-white flex flex-col justify-center">
                     <p className="text-4xl mb-10 font-bold">Pearl Osamuede</p>
 
@@ -166,12 +215,16 @@ function App() {
                         </a>
                     </div>
                 </div>
-                <div className="flex-1 text-white flex flex-col items-center justify-center ">
-                    <div className="flex gap-4 sticky top-0 bg-black w-full justify-center z-10 pt-20 pb-10">
+                <div className="flex-1 relative text-white flex flex-col items-center justify-center ">
+                    <div
+                        ref={stickyRef}
+                        className="flex gap-4 sticky top-0  w-full justify-center z-20 pt-20 pb-10"
+                    >
+                        {/* <div className="absolute inset-0 bg-black"></div> */}
                         <button
                             className={cn(
-                                "text-xl",
-                                currentIndex === 0 && "border-b-2 px-1"
+                                "text-xl relative",
+                                currentIndex === 0 && "border-b-2 px-1 z-50"
                             )}
                             onClick={() => setCurrentIndex(0)}
                         >
@@ -179,7 +232,7 @@ function App() {
                         </button>
                         <button
                             className={cn(
-                                "text-xl",
+                                "text-xl relative",
                                 currentIndex === 1 && "border-b-2 px-1"
                             )}
                             onClick={() => setCurrentIndex(1)}
@@ -187,7 +240,22 @@ function App() {
                             <p>Projects</p>
                         </button>
                     </div>
-                    <div className="px-1 pb-10">
+                    <svg width="0" height="0">
+                        <defs>
+                            <clipPath
+                                id="navClip"
+                                clipPathUnits="userSpaceOnUse"
+                            >
+                                <rect x="0" y="0" width="100vw" height="380" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                    <motion.div
+                        ref={ref}
+                        className="pb-10 relative z-10"
+                        style={{clipPath}}
+                    >
                         {currentIndex === 0 && (
                             <div className="flex  flex-col gap-4">
                                 <div>
@@ -303,9 +371,30 @@ function App() {
                                 })}
                             </div>
                         )}
-                    </div>
+                    </motion.div>
                 </div>
             </div>
+            <div
+                style={{
+                    // 5 px is the thickness of each line, 10px is the gap between lines
+                    backgroundImage: `repeating-linear-gradient(
+    to right,
+    rgba(20, 20, 20, 1) 0px,
+    rgba(20, 20, 20, 1) ${lineThickness}px,
+    transparent ${lineThickness}px, 
+    transparent ${lineThickness + lineGap}px
+  ),
+ repeating-linear-gradient(
+    to bottom,
+    rgba(20, 20, 20, 1) 0px,
+    rgba(20, 20, 20, 1) ${lineThickness}px,
+    transparent ${lineThickness}px, 
+    transparent ${lineThickness + lineGap}px
+  )`,
+                    //   backgroundBlendMode: "difference"
+                }}
+                className="absolute inset-0 z-30"
+            ></div>
         </div>
     );
 }
