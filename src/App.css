@@ -4,3 +4,9 @@
 @theme {
     --font-display: "Courier Prime"
 }
+
+body {
+    --grid-color: rgba(20, 20, 20, 1),
+}
+
+@custom-variant dark (&:where(.dark, .dark *));

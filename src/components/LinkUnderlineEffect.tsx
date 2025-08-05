@@ -18,7 +18,7 @@ export default function LinkUnderlineEffect({
             <motion.div
                 variants={{hover: {scaleX: 1}, blur: {scaleX: 0}}}
                 transition={{ease: "linear", duration: 0.2}}
-                className="bg-white origin-left w-full absolute h-0.5 "
+                className="bg-black dark:bg-white origin-left w-full absolute h-[1.5px] "
             ></motion.div>
         </motion.div>
     );
