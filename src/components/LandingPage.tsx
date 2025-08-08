@@ -112,7 +112,7 @@ function LandingPage() {
     return (
         <div
             className={
-                "bg-white dark:bg-black relative font-display flex  justify-center"
+                "bg-white z-auto dark:bg-black relative font-display flex  justify-center"
             }
         >
             <div className="max-w-[960px] relative z-40 flex gap-10 items-start">
