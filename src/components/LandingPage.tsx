@@ -67,9 +67,11 @@ const projects = [
 ];
 
 function LandingPage() {
-    const [currentIndex, setCurrentIndex] = useState(1);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [direction, setDirection] = useState(1);
+    const firstTabRef = useRef<HTMLDivElement>(null);
+    const secondTabRef = useRef<HTMLDivElement>(null);
 
     const lineThickness = 2;
     const lineGap = 25;
@@ -83,6 +85,11 @@ function LandingPage() {
     });
 
     const clipPath = useMotionValue("");
+
+    const changeTab = (index: number) => {
+        setCurrentIndex(index);
+        window.scrollTo(0, 0);
+    };
 
     useLayoutEffect(() => {
         if (!stickyRef.current || !ref.current) {
@@ -226,7 +233,7 @@ function LandingPage() {
                                 "text-xl relative",
                                 currentIndex === 0 && "border-b-2 px-1 z-50"
                             )}
-                            onClick={() => setCurrentIndex(0)}
+                            onClick={() => changeTab(0)}
                         >
                             <p>Experience</p>
                         </button>
@@ -235,142 +242,136 @@ function LandingPage() {
                                 "text-xl relative",
                                 currentIndex === 1 && "border-b-2 px-1"
                             )}
-                            onClick={() => setCurrentIndex(1)}
+                            onClick={() => changeTab(1)}
                         >
                             <p>Projects</p>
                         </button>
                     </div>
-                    <svg width="0" height="0">
-                        <defs>
-                            <clipPath
-                                id="navClip"
-                                clipPathUnits="userSpaceOnUse"
-                            >
-                                <rect x="0" y="0" width="100vw" height="380" />
-                            </clipPath>
-                        </defs>
-                    </svg>
-
                     <motion.div
                         ref={ref}
-                        className="pb-10 relative z-10 min-h-screen"
+                        className="pb-10 relative z-10 grid grid-cols-2"
                         style={{clipPath}}
                     >
-                        {currentIndex === 0 && (
-                            <div className="flex  flex-col gap-4">
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="size-2 bg-black dark:bg-white rounded-full"></div>
-                                        <div className="flex-1 flex justify-between items-center">
-                                            <p className="text-lg">
-                                                Hospyta HealthCare
-                                            </p>
+                        <div
+                            ref={firstTabRef}
+                            className={cn(
+                                "flex  flex-col gap-4 row-start-1 col-start-1 col-span-2",
+                                currentIndex !== 0 && "invisible"
+                            )}
+                        >
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="size-2 bg-black dark:bg-white rounded-full"></div>
+                                    <div className="flex-1 flex justify-between items-center">
+                                        <p className="text-lg">
+                                            Hospyta HealthCare
+                                        </p>
 
-                                            <p>July 2024 - April 2025</p>
-                                        </div>
-                                    </div>
-                                    <p className="italic">
-                                        React Native Developer (Remote)
-                                    </p>
-                                    <div className="">
-                                        <div className="flex flex-col gap-2">
-                                            <div className="flex gap-2">
-                                                <div className="w-2 bg-black/20 dark:bg-white/50 rounded-full"></div>
-                                                <p className="text-sm text-black/70 dark:text-white/70">
-                                                    Led the continuous
-                                                    development and maintenance
-                                                    of the Hospyta Patient App
-                                                    and Doctor App to ensure
-                                                    smooth and enhanced user
-                                                    experiences
-                                                </p>
-                                            </div>
-                                            <div className="flex gap-2">
-                                                <div className="w-2 bg-black/20 dark:bg-white/50 rounded-full"></div>
-
-                                                <p className="text-sm text-black/70 dark:text-white/70">
-                                                    Played a key role in the
-                                                    successful launch and
-                                                    continuous development of
-                                                    multiple high-performing
-                                                    mobile applications across
-                                                    various sectors of the
-                                                    healthcare industry.
-                                                </p>
-                                            </div>
-                                        </div>
+                                        <p>July 2024 - April 2025</p>
                                     </div>
                                 </div>
-                                <div className="w-full h-[1px] rounded-full bg-black/50 dark:bg-white/50"></div>
-
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="size-2 bg-black dark:bg-white rounded-full"></div>
-                                        <div className="flex-1 flex justify-between items-center">
-                                            <p className="text-lg">
-                                                Princeps Credit System Limited
+                                <p className="italic">
+                                    React Native Developer (Remote)
+                                </p>
+                                <div className="">
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex gap-2">
+                                            <div className="w-2 bg-black/20 dark:bg-white/50 rounded-full"></div>
+                                            <p className="text-sm text-black/70 dark:text-white/70">
+                                                Led the continuous development
+                                                and maintenance of the Hospyta
+                                                Patient App and Doctor App to
+                                                ensure smooth and enhanced user
+                                                experiences
                                             </p>
-
-                                            <p>July 2025</p>
                                         </div>
-                                    </div>
-                                    <p className="italic">Backend Intern</p>
-                                    <div className="">
-                                        <div className="flex flex-col gap-2">
-                                            <div className="flex gap-2">
-                                                <div className="w-2 bg-black/20 dark:bg-white/50 rounded-full"></div>
-                                                <p className="text-sm text-black/70 dark:text-white/70">
-                                                    Designed and implemented a
-                                                    reusable authentication
-                                                    system using NestJS,
-                                                    enabling secure, modular,
-                                                    and scalable user management
-                                                    across multiple
-                                                    microservices and
-                                                    applications.
-                                                </p>
-                                            </div>
+                                        <div className="flex gap-2">
+                                            <div className="w-2 bg-black/20 dark:bg-white/50 rounded-full"></div>
+
+                                            <p className="text-sm text-black/70 dark:text-white/70">
+                                                Played a key role in the
+                                                successful launch and continuous
+                                                development of multiple
+                                                high-performing mobile
+                                                applications across various
+                                                sectors of the healthcare
+                                                industry.
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        )}
-                        {currentIndex === 1 && (
-                            <div className="flex flex-col self-start gap-4">
-                                {projects.map((project, index) => {
-                                    return (
-                                        <div className="flex flex-col gap-4">
-                                            <div className="flex flex-col">
-                                                <p className="text-xl">
-                                                    {project.title}
-                                                </p>
-                                                <p className="text-black dark:text-white mt-2 mb-1">
-                                                    Tech Stack:{" "}
-                                                    {project.techStack}
-                                                </p>
-                                                <p className="text-black/70 dark:text-white/70 text-sm">
-                                                    {project.description}
-                                                </p>
-                                                <a
-                                                    href={project.link}
-                                                    target="_blank"
-                                                    className="self-end"
-                                                >
-                                                    <LinkUnderlineEffect>
-                                                        <p className="px-2">
-                                                            View Project {"</>"}
-                                                        </p>
-                                                    </LinkUnderlineEffect>
-                                                </a>
-                                            </div>
-                                            {index !== projects.length - 1 && (
-                                                <div className="w-full h-[1px] rounded-full bg-white/50"></div>
-                                            )}
+                            <div className="w-full h-[1px] rounded-full bg-black/50 dark:bg-white/50"></div>
+
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div className="size-2 bg-black dark:bg-white rounded-full"></div>
+                                    <div className="flex-1 flex justify-between items-center">
+                                        <p className="text-lg">
+                                            Princeps Credit System Limited
+                                        </p>
+
+                                        <p>July 2025</p>
+                                    </div>
+                                </div>
+                                <p className="italic">Backend Intern</p>
+                                <div className="">
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex gap-2">
+                                            <div className="w-2 bg-black/20 dark:bg-white/50 rounded-full"></div>
+                                            <p className="text-sm text-black/70 dark:text-white/70">
+                                                Designed and implemented a
+                                                reusable authentication system
+                                                using NestJS, enabling secure,
+                                                modular, and scalable user
+                                                management across multiple
+                                                microservices and applications.
+                                            </p>
                                         </div>
-                                    );
-                                })}
+                                    </div>
+                                </div>
                             </div>
-                        )}
+                        </div>
+
+                        <div
+                            ref={secondTabRef}
+                            className={cn(
+                                "flex flex-col self-start row-start-1 col-start-1 col-span-2 gap-4",
+                                currentIndex !== 1 && "invisible"
+                            )}
+                        >
+                            {projects.map((project, index) => {
+                                return (
+                                    <div className="flex flex-col gap-4">
+                                        <div className="flex flex-col">
+                                            <p className="text-xl">
+                                                {project.title}
+                                            </p>
+                                            <p className="text-black dark:text-white mt-2 mb-1">
+                                                Tech Stack: {project.techStack}
+                                            </p>
+                                            <p className="text-black/70 dark:text-white/70 text-sm">
+                                                {project.description}
+                                            </p>
+                                            <a
+                                                href={project.link}
+                                                target="_blank"
+                                                className="self-end"
+                                            >
+                                                <LinkUnderlineEffect>
+                                                    <p className="px-2">
+                                                        View Project {"</>"}
+                                                    </p>
+                                                </LinkUnderlineEffect>
+                                            </a>
+                                        </div>
+                                        {index !== projects.length - 1 && (
+                                            <div className="w-full h-[1px] rounded-full bg-white/50"></div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </motion.div>
                 </div>
             </div>
