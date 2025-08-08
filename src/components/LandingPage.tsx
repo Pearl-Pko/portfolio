@@ -1,8 +1,8 @@
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
-import github from "../assets/logo-github.svg";
-import linkedin from "../assets/logo-linkedin.svg";
-import mail from "../assets/mail-outline.svg";
-import x from "../assets/logo-x.svg";
+import GithubLogo from "../assets/logo-github.svg?react";
+import LinkedInLogo from "../assets/logo-linkedin.svg?react";
+import MailLogo from "../assets/mail-outline.svg?react";
+import XLogo from "../assets/logo-x.svg?react";
 import {
     motion,
     useMotionValue,
@@ -169,11 +169,10 @@ function LandingPage() {
                         <a href="https://github.com/Pearl-Pko" target="_blank">
                             <LinkUnderlineEffect>
                                 <div className="p-1">
-                                    <img
-                                        width={22}
-                                        height={22}
-                                        src={github}
-                                        className=""
+                                    <GithubLogo
+                                        className={cn(
+                                            "text-black dark:text-white size-6"
+                                        )}
                                     />
                                 </div>
                             </LinkUnderlineEffect>
@@ -184,11 +183,10 @@ function LandingPage() {
                         >
                             <LinkUnderlineEffect>
                                 <div className="p-1">
-                                    <img
-                                        width={22}
-                                        height={22}
-                                        src={linkedin}
-                                        className=" "
+                                    <LinkedInLogo
+                                        className={cn(
+                                            "text-black dark:text-white size-6"
+                                        )}
                                     />
                                 </div>
                             </LinkUnderlineEffect>
@@ -196,11 +194,10 @@ function LandingPage() {
                         <a href="mailto:pearlosa32@gmail.com">
                             <LinkUnderlineEffect>
                                 <div className="p-1">
-                                    <img
-                                        width={22}
-                                        height={22}
-                                        src={mail}
-                                        className="text-white "
+                                    <MailLogo
+                                        className={cn(
+                                            "text-black dark:text-white size-6"
+                                        )}
                                     />
                                 </div>
                             </LinkUnderlineEffect>
@@ -208,11 +205,10 @@ function LandingPage() {
                         <a href="https://x.com/POsamuede87691" target="_blank">
                             <LinkUnderlineEffect>
                                 <div className="p-1">
-                                    <img
-                                        width={22}
-                                        height={22}
-                                        src={x}
-                                        className=" "
+                                    <XLogo
+                                        className={cn(
+                                            "text-black dark:text-white size-6"
+                                        )}
                                     />
                                 </div>
                             </LinkUnderlineEffect>
