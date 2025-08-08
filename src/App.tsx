@@ -14,6 +14,8 @@ import {
     useAnimation,
     type AnimationPlaybackControlsWithThen,
 } from "motion/react";
+import Moon from "./assets/moon-outline.svg?react";
+import Sunny from "./assets/sunny-outline.svg?react";
 
 export default function App() {
     const prefersDark = useMemo(
@@ -194,8 +196,14 @@ export default function App() {
             <div
                 ref={modeToggleRef}
                 onClick={() => handleThemeToggle()}
-                className="fixed top-20 left-20 size-10 bg-purple-700 z-[500]"
-            ></div>
+                className={cn(
+                    "fixed top-20 left-20 size-10 rounded-full p-1.5  z-[500]",
+                    currentTheme === "dark" && "text-black bg-white",
+                    currentTheme === "light" && "text-white bg-black"
+                )}
+            >
+                {currentTheme === "dark" ? <Sunny /> : <Moon />}
+            </div>
         </div>
     );
 }
