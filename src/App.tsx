@@ -13,6 +13,7 @@ import {
     useAnimate,
     useAnimation,
     type AnimationPlaybackControlsWithThen,
+    AnimatePresence,
 } from "motion/react";
 import Moon from "./assets/moon-outline.svg?react";
 import Sunny from "./assets/sunny-outline.svg?react";
@@ -85,7 +86,7 @@ export default function App() {
                         currentAnimationRef.current?.time &&
                         currentAnimationRef.current.time > 0
                             ? currentAnimationRef.current.time
-                            : 1,
+                            : 0.9,
                     ease: "easeInOut",
                 }
             );
@@ -101,7 +102,7 @@ export default function App() {
             animate(
                 contractingElement,
                 {
-                    clipPath: `circle(0px at ${togglePosition.x}px ${togglePosition.y}px)`,
+                    clipPath: `circle(0% at ${togglePosition.x}px ${togglePosition.y}px)`,
                 },
                 {
                     duration: 0,
@@ -198,11 +199,37 @@ export default function App() {
                 onClick={() => handleThemeToggle()}
                 className={cn(
                     "fixed top-20 left-20 size-10 rounded-full p-1.5  z-[500]",
-                    currentTheme === "dark" && "text-black bg-white",
-                    currentTheme === "light" && "text-white bg-black"
+                    ((themeTransitionStatus && currentTheme === "light") ||
+                        (currentTheme === "dark" && !themeTransitionStatus)) &&
+                        "text-black bg-white",
+                    ((themeTransitionStatus && currentTheme === "dark") ||
+                        (currentTheme === "light" && !themeTransitionStatus)) &&
+                        "text-white bg-black"
                 )}
             >
-                {currentTheme === "dark" ? <Sunny /> : <Moon />}
+                <motion.div
+                    key={
+                        (currentTheme === "dark" && themeTransitionStatus) ||
+                        (currentTheme === "light" && !themeTransitionStatus)
+                            ? "dark"
+                            : "light"
+                    }
+                    initial={{rotate: -180}}
+                    animate={{rotate: 0}}
+                    exit={{rotate: 180}}
+                    transition={{
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20,
+                    }}
+                >
+                    {(currentTheme === "dark" && themeTransitionStatus) ||
+                    (currentTheme === "light" && !themeTransitionStatus) ? (
+                        <Moon />
+                    ) : (
+                        <Sunny />
+                    )}
+                </motion.div>
             </div>
         </div>
     );
