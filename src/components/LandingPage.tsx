@@ -66,12 +66,15 @@ const projects = [
     },
 ];
 
-function LandingPage() {
-    const [currentIndex, setCurrentIndex] = useState(0);
+function LandingPage({
+    tab,
+    setCurrentTab,
+}: {
+    tab: number;
+    setCurrentTab: (tab: number) => void;
+}) {
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [direction, setDirection] = useState(1);
-    const firstTabRef = useRef<HTMLDivElement>(null);
-    const secondTabRef = useRef<HTMLDivElement>(null);
 
     const lineThickness = 2;
     const lineGap = 25;
@@ -87,18 +90,18 @@ function LandingPage() {
     const clipPath = useMotionValue("");
 
     const changeTab = (index: number) => {
-        setCurrentIndex(index);
-        window.scrollTo(0, 0);
+        setCurrentTab(index);
+
+        if (!stickyRef.current || !ref.current) return;
+
+        window.scrollTo({
+            top:
+                ref.current.getBoundingClientRect().top +
+                window.pageYOffset -
+                stickyRef.current.getBoundingClientRect().height,
+            behavior: "smooth",
+        });
     };
-
-    useLayoutEffect(() => {
-        if (!stickyRef.current || !ref.current) {
-            return;
-        }
-
-        stickyRef.current.getBoundingClientRect().bottom -
-            ref.current.getBoundingClientRect().top;
-    }, [stickyRef, ref]);
 
     useMotionValueEvent(scrollYProgress, "change", (val) => {
         if (!stickyRef.current || !ref.current) {
@@ -113,7 +116,6 @@ function LandingPage() {
             1
         );
         clipPath.set(`inset(${overlapPercent * 100}% 0px 0px 0px)`);
-        console.log("scroll progress", val, scrollY);
     });
 
     return (
@@ -122,9 +124,11 @@ function LandingPage() {
                 "bg-white z-auto dark:bg-black relative font-display flex  justify-center"
             }
         >
-            <div className="max-w-[960px] relative z-40 flex gap-10 items-start">
-                <div className="h-screen sticky top-0 flex-1 text-black dark:text-white flex flex-col justify-center">
-                    <p className="text-4xl mb-10 font-bold">Pearl Osamuede</p>
+            <div className="max-w-[960px] relative z-40 lg:flex gap-10 items-start px-3 pt-20 lg:p-0">
+                <div className="lg:h-screen lg:sticky top-0 flex-1 text-black dark:text-white flex flex-col justify-center">
+                    <p className="text-4xl mb-5 lg:mb-10 font-bold">
+                        Pearl Osamuede
+                    </p>
 
                     <p className="my-5 text-lg">
                         I am a{" "}
@@ -137,9 +141,7 @@ function LandingPage() {
                                     : 1
                             }
                             delay={0.04}
-                            startDelay={
-                                currentIndex > 0 && direction === 1 ? 0.1 : 0.04
-                            }
+                            startDelay={tab > 0 && direction === 1 ? 0.1 : 0.04}
                             onAnimationComplete={() => {
                                 if (currentTextIndex === text.length - 1)
                                     return;
@@ -153,7 +155,7 @@ function LandingPage() {
                             }}
                         />
                     </p>
-                    <p className="text-black/70 dark:text-white/70">
+                    <p className="text-black/70 dark:text-white/70 text-sm lg:text-base">
                         I'm passionate about creating meaningful digital
                         experiences through technology that not only solve
                         real-world problems but also empower individuals and
@@ -225,13 +227,13 @@ function LandingPage() {
                 <div className="flex-1 relative text-black dark:text-white flex flex-col items-center justify-center ">
                     <div
                         ref={stickyRef}
-                        className="flex gap-4 sticky top-0  w-full justify-center z-20 pt-20 pb-10"
+                        className="flex gap-4  sticky top-0  w-full justify-center z-20 pt-10 pb-7 lg:pt-20 lg:pb-10"
                     >
                         {/* <div className="absolute inset-0 bg-black"></div> */}
                         <button
                             className={cn(
-                                "text-xl relative",
-                                currentIndex === 0 && "border-b-2 px-1 z-50"
+                                "text-lg relative",
+                                tab === 0 && "border-b-2 px-1 z-50"
                             )}
                             onClick={() => changeTab(0)}
                         >
@@ -239,8 +241,8 @@ function LandingPage() {
                         </button>
                         <button
                             className={cn(
-                                "text-xl relative",
-                                currentIndex === 1 && "border-b-2 px-1"
+                                "text-lg relative",
+                                tab === 1 && "border-b-2 px-1"
                             )}
                             onClick={() => changeTab(1)}
                         >
@@ -249,25 +251,26 @@ function LandingPage() {
                     </div>
                     <motion.div
                         ref={ref}
-                        className="pb-10 relative z-10 grid grid-cols-2"
+                        className="pb-7 lg:pb-10 relative z-10 grid grid-cols-2"
                         style={{clipPath}}
                     >
                         <div
-                            ref={firstTabRef}
                             className={cn(
                                 "flex  flex-col gap-4 row-start-1 col-start-1 col-span-2",
-                                currentIndex !== 0 && "invisible"
+                                tab !== 0 && "invisible"
                             )}
                         >
                             <div>
                                 <div className="flex items-center gap-2">
                                     <div className="size-2 bg-black dark:bg-white rounded-full"></div>
                                     <div className="flex-1 flex justify-between items-center">
-                                        <p className="text-lg">
+                                        <p className="text-base lg:text-lg">
                                             Hospyta HealthCare
                                         </p>
 
-                                        <p>July 2024 - April 2025</p>
+                                        <p className="text-sm lg:text-base">
+                                            July 2024 - April 2025
+                                        </p>
                                     </div>
                                 </div>
                                 <p className="italic">
@@ -307,7 +310,7 @@ function LandingPage() {
                                 <div className="flex items-center gap-2">
                                     <div className="size-2 bg-black dark:bg-white rounded-full"></div>
                                     <div className="flex-1 flex justify-between items-center">
-                                        <p className="text-lg">
+                                        <p className="text-base lg:text-lg">
                                             Princeps Credit System Limited
                                         </p>
 
@@ -334,17 +337,16 @@ function LandingPage() {
                         </div>
 
                         <div
-                            ref={secondTabRef}
                             className={cn(
                                 "flex flex-col self-start row-start-1 col-start-1 col-span-2 gap-4",
-                                currentIndex !== 1 && "invisible"
+                                tab !== 1 && "invisible"
                             )}
                         >
                             {projects.map((project, index) => {
                                 return (
                                     <div className="flex flex-col gap-4">
                                         <div className="flex flex-col">
-                                            <p className="text-xl">
+                                            <p className="text-lg">
                                                 {project.title}
                                             </p>
                                             <p className="text-black dark:text-white mt-2 mb-1">
@@ -395,7 +397,7 @@ function LandingPage() {
                                         transparent ${lineThickness + lineGap}px
                                     )`,
                 }}
-                className="absolute inset-0 z-30 me opacity-5 dark:opacity-100"
+                className="fixed inset-0 z-30 me opacity-5 dark:opacity-100"
             ></div>
         </div>
     );

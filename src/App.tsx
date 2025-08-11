@@ -26,28 +26,36 @@ export default function App() {
     const [currentTheme, setCurrentTheme] = useState<"light" | "dark">(
         prefersDark ? "dark" : "light"
     );
+    const rootRef = useRef<HTMLDivElement>(null);
     const [themeTransitionStatus, setThemeTransitionStatus] = useState<
         false | "expanding" | "contracting"
     >(false);
+    const [tab, setCurrentTab] = useState(0);
 
-    const [themeTogglePosition, setThemeTogglePosition] = useState<{
+    const themeTogglePosition = useRef<{
         x: number;
         y: number;
-    }>();
-
-    const currentAnimationRef = useRef<AnimationPlaybackControlsWithThen>(null);
-
+    }>(null);
     const lightModeRef = useRef<HTMLDivElement>(null);
     const darkModeRef = useRef<HTMLDivElement>(null);
+
+    const clipPathRadius = useRef<number>(null);
+
+    const currentAnimationRef = useRef<AnimationPlaybackControlsWithThen>(null);
 
     const modeToggleRef = useRef<HTMLDivElement>(null);
 
     const [scope, animate] = useAnimate();
 
     const handleThemeToggle = async () => {
-        if (!lightModeRef.current || !darkModeRef.current) return;
+        if (
+            !lightModeRef.current ||
+            !darkModeRef.current ||
+            !themeTogglePosition.current ||
+            !clipPathRadius.current
+        )
+            return;
 
-        const togglePosition = themeTogglePosition || {x: 0, y: 0};
         const isLightMode = currentTheme === "light";
 
         const expandingElement = isLightMode
@@ -73,13 +81,14 @@ export default function App() {
 
             setThemeTransitionStatus(nextThemeTransitionStatus);
 
+            console.log("timeee", currentAnimationRef.current?.time);
             currentAnimationRef.current = animate(
                 expandingElement,
                 {
                     clipPath:
                         nextThemeTransitionStatus === "expanding"
-                            ? `circle(200% at ${togglePosition.x}px ${togglePosition.y}px)`
-                            : `circle(0% at ${togglePosition.x}px ${togglePosition.y}px)`,
+                            ? `circle(${clipPathRadius.current}px at ${themeTogglePosition.current.x}px ${themeTogglePosition.current.y}px)`
+                            : `circle(0px at ${themeTogglePosition.current.x}px ${themeTogglePosition.current.y}px)`,
                 },
                 {
                     duration:
@@ -102,12 +111,13 @@ export default function App() {
             animate(
                 contractingElement,
                 {
-                    clipPath: `circle(0% at ${togglePosition.x}px ${togglePosition.y}px)`,
+                    clipPath: `circle(0px at ${themeTogglePosition.current.x}px ${themeTogglePosition.current.y}px)`,
                 },
                 {
                     duration: 0,
                 }
             );
+            // contractingElement.style.clipPath = `circle(0px at ${themeTogglePosition.current.x}px ${themeTogglePosition.current.y}px)`
             setThemeTransitionStatus(false);
         } catch (error) {
             console.error("error o", error);
@@ -115,56 +125,132 @@ export default function App() {
     };
 
     useLayoutEffect(() => {
-        if (!modeToggleRef.current) return;
+        const updateTogglePosition = () => {
+            if (!modeToggleRef.current) return;
+            const box = modeToggleRef.current.getBoundingClientRect();
+            themeTogglePosition.current = {
+                x: (box.x + box.x + box.width) / 2,
+                y: (box.y + box.y + box.height) / 2 + window.pageYOffset,
+            };
+        };
 
-        const box = modeToggleRef.current.getBoundingClientRect();
-        setThemeTogglePosition({
-            x: (box.x + box.x + box.width) / 2,
-            y: (box.y + box.y + box.height) / 2,
-        });
-    }, []);
+        updateTogglePosition();
+
+        window.addEventListener("resize", updateTogglePosition);
+        window.addEventListener("scroll", updateTogglePosition);
+
+        return () => {
+            window.removeEventListener("resize", updateTogglePosition);
+            window.removeEventListener("scroll", updateTogglePosition);
+        };
+    }, [modeToggleRef.current]);
+
+    useLayoutEffect(() => {
+        const updateClipPathRadius = () => {
+            if (!themeTogglePosition.current) return;
+            const togglePosition = themeTogglePosition.current;
+
+            const viewportWidth = Math.max(
+                document.documentElement.clientWidth || 0,
+                window.innerWidth || 0
+            );
+            const viewportHeight = Math.max(
+                document.documentElement.clientHeight || 0,
+                window.innerHeight || 0,
+                document.documentElement.scrollHeight
+            );
+
+            // Calculate distance to farthest corner
+            const radius = Math.sqrt(
+                Math.max(
+                    Math.pow(togglePosition.x, 2) +
+                        Math.pow(togglePosition.y, 2),
+                    Math.pow(viewportWidth - togglePosition.x, 2) +
+                        Math.pow(togglePosition.y, 2),
+                    Math.pow(togglePosition.x, 2) +
+                        Math.pow(viewportHeight - togglePosition.y, 2),
+                    Math.pow(viewportWidth - togglePosition.x, 2) +
+                        Math.pow(viewportHeight - togglePosition.y, 2)
+                )
+            );
+            clipPathRadius.current = radius;
+        };
+
+        updateClipPathRadius();
+
+        window.addEventListener("resize", updateClipPathRadius);
+        window.addEventListener("scroll", updateClipPathRadius);
+
+        return () => {
+            window.removeEventListener("resize", updateClipPathRadius);
+            window.removeEventListener("scroll", updateClipPathRadius);
+        };
+    }, [themeTogglePosition.current, document, window]);
 
     //  specify the reference point for scaling animations triggered by theme changes
     useEffect(() => {
-        if (
-            !lightModeRef.current ||
-            !darkModeRef.current ||
-            !themeTogglePosition
-        )
-            return;
+        const updateInitialPosition = () => {
+            if (themeTransitionStatus) return;
 
-        if (prefersDark) {
+            if (
+                !lightModeRef.current ||
+                !darkModeRef.current ||
+                !themeTogglePosition.current ||
+                !clipPathRadius.current
+            )
+                return;
+
+            const hiddenElement =
+                currentTheme === "dark"
+                    ? lightModeRef.current
+                    : darkModeRef.current;
+            const visibleElement =
+                currentTheme === "dark"
+                    ? darkModeRef.current
+                    : lightModeRef.current;
+
+            // console.log("theme toggle position", themeTogglePosition);
             animate(
-                lightModeRef.current,
+                hiddenElement,
                 {
-                    clipPath: `circle(0% at ${themeTogglePosition.x}px ${themeTogglePosition.y}px)`,
+                    clipPath: `circle(0px at ${themeTogglePosition.current.x}px ${themeTogglePosition.current.y}px)`,
                 },
                 {
                     duration: 0,
                 }
             );
-        } else {
             animate(
-                darkModeRef.current,
+                visibleElement,
                 {
-                    clipPath: `circle(200% at ${themeTogglePosition.x}px ${themeTogglePosition.y}px)`,
+                    clipPath: `circle(${clipPathRadius.current}px at ${themeTogglePosition.current.x}px ${themeTogglePosition.current.y}px)`,
                 },
                 {
                     duration: 0,
                 }
             );
-        }
+        };
+
+        updateInitialPosition();
+
+        window.addEventListener("resize", updateInitialPosition);
+        window.addEventListener("scroll", updateInitialPosition);
+
+        return () => {
+            window.removeEventListener("resize", updateInitialPosition);
+            window.removeEventListener("scroll", updateInitialPosition);
+        };
     }, [
-        themeTogglePosition,
+        themeTogglePosition.current,
         lightModeRef.current,
         darkModeRef.current,
         prefersDark,
+        themeTransitionStatus,
     ]);
 
-    console.log("box", themeTogglePosition);
+    // console.log("box", themeTogglePosition);
 
     return (
-        <div className="relative">
+        <div className="relative" ref={rootRef}>
             <motion.div
                 ref={lightModeRef}
                 className={cn(
@@ -177,7 +263,12 @@ export default function App() {
                         "z-[200]"
                 )}
             >
-                <LandingPage />
+                <LandingPage
+                    tab={tab}
+                    setCurrentTab={(index) => {
+                        setCurrentTab(index);
+                    }}
+                />
             </motion.div>
             <motion.div
                 ref={darkModeRef}
@@ -191,14 +282,19 @@ export default function App() {
                         "z-[200]"
                 )}
             >
-                <LandingPage />
+                <LandingPage
+                    tab={tab}
+                    setCurrentTab={(index) => {
+                        setCurrentTab(index);
+                    }}
+                />
             </motion.div>
 
             <div
                 ref={modeToggleRef}
                 onClick={() => handleThemeToggle()}
                 className={cn(
-                    "fixed top-20 left-20 size-10 rounded-full p-1.5  z-[500]",
+                    "fixed top-5 lg:top-20 right-5 lg:left-20 size-10 rounded-full p-1.5  z-[500]",
                     ((themeTransitionStatus && currentTheme === "light") ||
                         (currentTheme === "dark" && !themeTransitionStatus)) &&
                         "text-black bg-white",

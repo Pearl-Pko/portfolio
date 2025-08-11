@@ -7,7 +7,7 @@ const Typewriter = ({
     direction = 1,
     repeat = Infinity,
     onAnimationComplete,
-    startDelay = delay
+    startDelay = delay,
 }: {
     text: string;
     delay?: number;
@@ -15,10 +15,9 @@ const Typewriter = ({
     direction?: number;
     repeat?: number;
     onAnimationComplete: () => void;
-    startDelay?: number
+    startDelay?: number;
 }) => {
     const letters = text.split("");
-    console.log("kk", direction);
 
     const container = {
         // hidden: {opacity: 0},
@@ -39,7 +38,9 @@ const Typewriter = ({
             key={text + direction}
             animate="visible"
             className="inline-block relative"
-            onAnimationComplete={() => {onAnimationComplete()}}
+            onAnimationComplete={() => {
+                onAnimationComplete();
+            }}
         >
             {letters.map((char, index) => (
                 <motion.span
@@ -80,7 +81,6 @@ const Typewriter = ({
 
                             // visible: {opacity: 1},
                         }}
-                        onAnimationComplete={() => {console.log("child is over")}}
                         transition={{duration: 0}}
                         // transition={{delay: delay}}
                         className="absolute inline-block pl-0.5"
