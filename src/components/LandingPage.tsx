@@ -1,6 +1,7 @@
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import GithubLogo from "../assets/logo-github.svg?react";
 import LinkedInLogo from "../assets/logo-linkedin.svg?react";
+import GlobeLogo from "../assets/globe-outline.svg?react";
 import MailLogo from "../assets/mail-outline.svg?react";
 import XLogo from "../assets/logo-x.svg?react";
 import {
@@ -21,28 +22,24 @@ const skills = ["Docker", "NextJS", "NestJS", "Python", "C++", "React Native"];
 const projects = [
     {
         title: "Pinterest Clone",
-        description: ` I built a full-featured Pinterest clone using Next.js with server-side rendering, a secure authentication system using JWT access and refresh tokens, and integrated AWS S3 for image
+        description: ` I cloned Pinterest using Next.js with server-side rendering, a secure authentication system using JWT access and refresh tokens, and integrated AWS S3 for image
                                         storage. I set up a zero-downtime CI/CD
                                         pipeline using GitHub Actions and Docker
                                         to automate deployments. This project
-                                        highlights my ability to deliver
+                                        shows my ability to deliver
                                         scalable, production-ready applications
                                         with strong backend architecture and
                                         DevOps practices.`,
-        techStack: `NextJS, NestJS, AWS S3, Docker, Github Actions, Postgressql, Prisma Tailwind CSS`,
-        link: "https://github.com/Pearl-Pko/PinterestClone",
+        techStack: `NextJS, NestJS, AWS S3, Docker, Github Actions, Postgressql, Prisma, Tailwind CSS`,
+        projectLink: "https://github.com/Pearl-Pko/PinterestClone",
     },
     {
         title: "Droip.com Landing Page Clone",
-        description: `I developed a responsive landing page using Next.js and Tailwind CSS, focusing on performance and SEO optimization. The page features a dynamic hero section with smooth animations, a
-                                        contact form with email validation, and a
-                                        blog section that fetches posts from a
-                                        headless CMS. This project showcases my
-                                        skills in building modern, user-friendly
-                                        web applications with a focus on design and
-                                        functionality.`,
+        description: `I recreated the droip.com site as a personal project to explore advanced UI animation and responsive design. I was inspired by its smooth scroll-linked effects, smooth gradients that subtly followed the cursor, and seamless adaptation across screen sizes.
+         I built my version using Next.js and React Motion. I used useScroll to track scroll progress and map it to properties like opacity, position, or background gradients using useTransform, this enabled animations that evolve dynamically as the user scrolls. I learnt about orchestrating sequences by passing variant props to child nodes and timed delays. The result was user-centric, interactive experience that is responsive across screen sizes.`,
         techStack: `NextJS, Tailwind CSS, React Motion`,
-        link: "https://github.com/Pearl-Pko/landing-page",
+        projectLink: "https://github.com/Pearl-Pko/landing-page",
+        link: "https://landing-page-nu-ten-23.vercel.app/",
     },
     {
         title: "Vite Plugin Console Pipe",
@@ -62,7 +59,7 @@ const projects = [
                                     client-side behavior directly from the
                                     development environment.`,
         techStack: "Vite, Websockets",
-        link: "https://github.com/Pearl-Pko/vite-plugin-console-pipe",
+        projectLink: "https://github.com/Pearl-Pko/vite-plugin-console-pipe",
     },
 ];
 
@@ -355,17 +352,35 @@ function LandingPage({
                                             <p className="text-black/70 dark:text-white/70 text-sm">
                                                 {project.description}
                                             </p>
-                                            <a
-                                                href={project.link}
-                                                target="_blank"
-                                                className="self-end"
-                                            >
-                                                <LinkUnderlineEffect>
-                                                    <p className="px-2">
-                                                        View Project {"</>"}
-                                                    </p>
-                                                </LinkUnderlineEffect>
-                                            </a>
+                                            <div className="flex gap-2 self-end">
+                                                {project.link && (
+                                                    <a
+                                                        href={project.link}
+                                                        target="_blank"
+                                                        className=""
+                                                    >
+                                                        <LinkUnderlineEffect>
+                                                            <div className="px-2 flex items-center gap-2">
+                                                                <p className=" ">
+                                                                    Visit Link{" "}
+                                                                </p>
+                                                                <GlobeLogo className="text-black self-start dark:text-white size-5" />
+                                                            </div>
+                                                        </LinkUnderlineEffect>
+                                                    </a>
+                                                )}
+                                                <a
+                                                    href={project.projectLink}
+                                                    target="_blank"
+                                                    className="self-end"
+                                                >
+                                                    <LinkUnderlineEffect>
+                                                        <p className="px-2">
+                                                            View Project {"</>"}
+                                                        </p>
+                                                    </LinkUnderlineEffect>
+                                                </a>
+                                            </div>
                                         </div>
                                         {index !== projects.length - 1 && (
                                             <div className="w-full h-[1px] rounded-full bg-white/50"></div>
